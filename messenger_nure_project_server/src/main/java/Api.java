@@ -1,4 +1,4 @@
-public interface Service {
+interface Api {
     void addUser();
 
     void getUser(int UserId);
@@ -7,11 +7,11 @@ public interface Service {
 }
 
 
-class ServiceImpl implements Service {
-    Repository repository;
+class ApiImpl implements Api {
+    Service service;
 
-    ServiceImpl(Repository repository) {
-        this.repository = repository;
+    ApiImpl(Service service) {
+        this.service = service;
     }
 
     public void addUser() {
@@ -19,7 +19,7 @@ class ServiceImpl implements Service {
     }
 
     public void getUser(int UserId) {
-        repository.getUser(UserId);
+        service.getUser(UserId);
     }
 
     public void updateUser() {
@@ -28,3 +28,4 @@ class ServiceImpl implements Service {
 
 
 }
+
