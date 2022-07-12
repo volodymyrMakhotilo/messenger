@@ -1,16 +1,9 @@
-public interface Service {
-    void addUser();
+package main;
 
-    void getUser(int UserId);
-
-    void updateUser();
-}
-
-
-class ServiceImpl implements Service {
+public class Service implements Layer {
     Repository repository;
 
-    ServiceImpl(Repository repository) {
+    public Service(Repository repository) {
         this.repository = repository;
     }
 

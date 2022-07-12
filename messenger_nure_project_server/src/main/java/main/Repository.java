@@ -1,22 +1,16 @@
+package main;
+
 import models.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-public interface Repository {
-    void addUser();
 
-    void getUser(int UserId);
-
-    void updateUser();
-}
-
-
-class RepositoryImpl implements Repository {
+public class Repository implements Layer {
     SessionFactory db;
 
-    RepositoryImpl(SessionFactory db) {
+    public Repository(SessionFactory db) {
         this.db = db;
     }
 

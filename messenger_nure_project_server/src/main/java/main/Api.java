@@ -1,16 +1,10 @@
-interface Api {
-    void addUser();
-
-    void getUser(int UserId);
-
-    void updateUser();
-}
+package main;
 
 
-class ApiImpl implements Api {
+public class Api implements Layer {
     Service service;
 
-    ApiImpl(Service service) {
+    public Api(Service service) {
         this.service = service;
     }
 
