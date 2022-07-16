@@ -1,9 +1,8 @@
-package main;
-
 import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utilities.db;
+import utilities.http_server;
 
 import java.sql.SQLException;
 
@@ -16,5 +15,6 @@ public class main {
         tx1.commit();
         session.close();
 */
+        new http_server();
     }
 }

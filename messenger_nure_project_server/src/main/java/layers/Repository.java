@@ -1,4 +1,4 @@
-package main;
+package layers;
 
 import models.User;
 import org.hibernate.HibernateException;

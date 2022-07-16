@@ -1,4 +1,4 @@
-package main;
+package layers;
 
 public interface Layer {
     void addUser();
