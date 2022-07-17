@@ -1,34 +1,16 @@
-package models;
+package com.example.messenger_nure_project_client.models;
 
-import org.hibernate.annotations.NaturalId;
-
-import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 
-@Entity
-@Table(name = "users")
-@XmlRootElement(name = "user")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NaturalId
-    @Column(name = "login")
     private String login;
-    @Column(name = "ip")
     private String ip;
-    @Column(name = "port")
     private int port;
-
-
-    //   private int age;
-       /* @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-        private List<Auto> autos;
-        */
 
     public User() {
     }
