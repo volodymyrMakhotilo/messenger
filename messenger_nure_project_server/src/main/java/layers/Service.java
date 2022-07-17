@@ -1,5 +1,7 @@
 package layers;
 
+import models.User;
+
 public class Service implements Layer {
     Repository repository;
 
@@ -7,17 +9,19 @@ public class Service implements Layer {
         this.repository = repository;
     }
 
-    public void addUser() {
-
+    public void addUser(String login, String ip, int port) {
+        repository.addUser(login, ip, port);
     }
 
-    public void getUser(int UserId) {
-        repository.getUser(UserId);
+    public User getUser(String login) {
+        return repository.getUser(login);
     }
 
     public void updateUser() {
 
     }
 
-
+    public boolean checkUser(String login) {
+        return getUser(login) != null;
+    }
 }

@@ -14,18 +14,12 @@ public class Repository implements Layer {
         this.db = db;
     }
 
-    public void addUser() {
-
-    }
-
-    public void getUser(int UserId) {
+    public void addUser(String login, String ip, int port) {
+        User user = new User(login, ip, port);
         Session session = db.openSession();
-        Transaction tx = null;
+        Transaction tx = session.beginTransaction();
         try {
-            tx = session.beginTransaction();
-            User user = (User) session.get(User.class, UserId);
-            System.out.println(user);
-            session.delete(user);
+            session.save(user);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -33,7 +27,23 @@ public class Repository implements Layer {
         } finally {
             session.close();
         }
+    }
 
+    public User getUser(String login) {
+        User user = null;
+        Session session = db.openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            // Hard coded
+            user = (User) session.byNaturalId(User.class).using("login",login).load();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return user;
     }
 
     public void updateUser() {

@@ -1,51 +1,68 @@
 package models;
+
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
-@Table (name = "users")
+@Table(name = "users")
 public class User {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-        @Column(name = "nickname")
-        private String nickname;
-     //   private int age;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @NaturalId
+    @Column(name = "login")
+    private String login;
+    @Column(name = "ip")
+    private String IP;
+    @Column(name = "port")
+    private int port;
+
+
+    //   private int age;
        /* @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
         private List<Auto> autos;
         */
 
-        public User() {
-        }
+    public User() {
+    }
 
-        public User(String name) {
-            this.nickname = name;
-        }
+    public User(String login, String IP, int port) {
+        this.login = login;
+        this.IP = IP;
+        this.port = port;
+    }
 
+    public int getId() {
+        return id;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        public String getName() {
-            return nickname;
-        }
+    public String getLogin() {
+        return login;
+    }
 
-        public void setName(String name) {
-            this.nickname = name;
-        }
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
+    public String getIP() {
+        return IP;
+    }
 
+    public void setIP(String IP) {
+        this.IP = IP;
+    }
 
+    public int getPort() {
+        return port;
+    }
 
-        @Override
-        public String toString() {
-            return "models.User{" +
-                    "name='" + nickname + '\'' +
-                    '}';
-        }
-
-
+    public void setPort(int port) {
+        this.port = port;
+    }
 }
