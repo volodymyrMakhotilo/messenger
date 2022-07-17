@@ -2,6 +2,8 @@ package layers;
 
 import models.User;
 
+import java.util.List;
+
 public class Service implements Layer {
     Repository repository;
 
@@ -19,6 +21,9 @@ public class Service implements Layer {
 
     public void updateUser() {
 
+    }
+    public List<User> getUsers(){
+        return repository.getUsers();
     }
 
     public boolean checkUser(String login) {

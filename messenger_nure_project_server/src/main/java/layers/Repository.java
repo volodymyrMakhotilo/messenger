@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 
 public class Repository implements Layer {
     SessionFactory db;
@@ -44,6 +46,22 @@ public class Repository implements Layer {
             session.close();
         }
         return user;
+    }
+
+    public List<User> getUsers(){
+        List<User> users = null;
+        Session session = db.openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            users = session.createQuery("from User", User.class).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return users;
     }
 
     public void updateUser() {
