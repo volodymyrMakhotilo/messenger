@@ -8,27 +8,51 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class LocalServer {
+    static ServerSocket ss;
+
     public LocalServer() {
         try {
-            createServer();
+            ss = new ServerSocket(0);
         } catch (Throwable e) {
             e.printStackTrace();
         }
     }
 
-    private static void createServer() throws Throwable {
-        ServerSocket ss = new ServerSocket(8080);
+    public void startServer() {
+        Runnable serverTask = new Runnable() {
+            @Override
+            public void run() {
+                int num = 0;
 
-        int num = 0;
+                while (true) {
+                    try {
+                        Socket s = null;
 
-        while (true) {
-            Socket s = ss.accept();
 
-            num++;
+                        System.out.println("1");
+                        s = ss.accept();
+                        System.out.println("2");
 
-            System.err.println("Client "+ num + " is here!");
-            new Thread(new SocketProcessor(s)).start();
-        }
+                        num++;
+
+                        System.err.println("Client " + num + " is here!");
+                        new Thread(new SocketProcessor(s)).start();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        Thread serverThread = new Thread(serverTask);
+        serverThread.start();
+    }
+
+    public int getPort() {
+        return ss.getLocalPort();
+    }
+
+    public String getIP() {
+        return ss.getInetAddress().toString();
     }
 
     private static class SocketProcessor implements Runnable {
@@ -46,7 +70,7 @@ public class LocalServer {
 
         public void run() {
             try {
-                while(true) {
+                while (true) {
                     System.out.println("Connection established");
                     readRequest();
                     System.out.println("Response gotten");

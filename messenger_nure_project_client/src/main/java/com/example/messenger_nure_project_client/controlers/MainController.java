@@ -2,6 +2,7 @@ package com.example.messenger_nure_project_client.controlers;
 
 import com.example.messenger_nure_project_client.Application;
 import com.example.messenger_nure_project_client.Messenger;
+import com.example.messenger_nure_project_client.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,8 @@ import java.io.IOException;
 
 public class MainController {
     static Messenger messenger;
-
+    @FXML
+    private VBox userList;
     @FXML
     private TextField loginField;
     @FXML
@@ -36,13 +38,15 @@ public class MainController {
 
     @FXML
     protected void onMessageIncome() {
-
+        messenger.sendMessage(loginField.getText());
     }
 
     @FXML
-    protected void onLoginButtonPress(ActionEvent event) throws IOException {
+    protected void onLoginButtonPress(ActionEvent event) throws Throwable {
+        User[] users = messenger.login(loginField.getText());
+        System.out.println(users);
+        messenger.setUsers(users);
         switchScene(event);
-        messenger.sendMessage(loginField.getText());
     }
 
     private void switchScene(ActionEvent event) throws IOException {
@@ -54,29 +58,15 @@ public class MainController {
     }
 
 
-
     @FXML
     public void initialize() throws Throwable {
         //get model
-        messenger = new Messenger();
-        //link Model with View
-       /*   accountHolder.textProperty().bind(account.accountHolderProperty());
-       // accountBalance.textProperty().bind(account.accountBalanceProperty().asString());
-        //accountNumber.textProperty().bind(account.accountNumberProperty().asString());
-
-     //link Controller to View - ensure only numeric input (integers) in text field
-        amountTextField.setTextFormatter(new TextFormatter<>(change -> {
-            if (change.getText().matches("\\d+") || change.getText().equals("")) {
-                return change;
-            } else {
-                change.setText("");
-                change.setRange(
-                        change.getRangeStart(),
-                        change.getRangeStart()
-                );
-                return change;
+        messenger = Messenger.getInstance();
+        if (messenger.getUsers() != null) {
+            for (User user : messenger.getUsers()) {
+                userList.getChildren().add(new Label(user.getLogin()));
             }
-        }));*/
+        }
     }
 
 }

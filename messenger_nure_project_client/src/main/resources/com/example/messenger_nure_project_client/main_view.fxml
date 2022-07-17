@@ -8,7 +8,6 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.messenger_nure_project_client.controlers.MainController">
    <children>
-      <AnchorPane prefHeight="500.0" prefWidth="135.0" />
       <AnchorPane layoutX="127.0" prefHeight="500.0" prefWidth="376.0">
          <children>
             <Button layoutX="310.0" layoutY="442.0" mnemonicParsing="false" onAction="#onSendButtonPress" prefHeight="44.0" prefWidth="52.0" text="Send" />
@@ -18,5 +17,6 @@
             <VBox fx:id="outgoing_filed" alignment="BOTTOM_CENTER" layoutX="172.0" layoutY="5.0" prefHeight="437.0" prefWidth="204.0" />
          </children>
       </AnchorPane>
+      <VBox fx:id="userList" alignment="TOP_CENTER" layoutX="8.0" prefHeight="494.0" prefWidth="113.0" />
    </children>
 </AnchorPane>

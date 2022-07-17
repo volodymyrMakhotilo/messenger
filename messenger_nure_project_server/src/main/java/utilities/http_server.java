@@ -97,14 +97,14 @@ public class http_server {
 
         public void processLogin(XML_Marshaller XML_Marshaller) throws Throwable {
             String request = readRequest();
+            writeResponse(getUsers());
             User user = XML_Marshaller.parseUser(request);
             if (service.checkUser(user.getLogin())) {
-                updateUsers(user);
             } else {
+                updateUsers(user);
                 service.addUser(user.getLogin(), user.getIp(), user.getPort());
             }
             System.out.println("Gonna answer on Log!");
-            writeResponse(getUsers());
         }
     }
 
