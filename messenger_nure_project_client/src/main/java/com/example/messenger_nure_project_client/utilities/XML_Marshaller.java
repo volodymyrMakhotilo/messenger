@@ -22,11 +22,18 @@ public class XML_Marshaller {
 
         return message.getUsers();
 
+    }
+    public User parseUser(String message) throws JAXBException {
+        System.out.println(message);
+        JAXBContext jaxbContext = JAXBContext.newInstance(User.class);
 
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
+        User user = (User) jaxbUnmarshaller.unmarshal(new StringReader(message));
 
+        System.out.println(user);
 
-
+        return user;
     }
 
 

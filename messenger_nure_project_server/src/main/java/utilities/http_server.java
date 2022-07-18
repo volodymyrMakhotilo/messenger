@@ -119,7 +119,7 @@ public class http_server {
 
     public static void updateUsers(User user) throws Throwable {
         for (SocketProcessor socket : sockets) {
-            socket.writeResponse(xml.getUser(user.getLogin(), user.getIp(), user.getPort()));
+            socket.writeResponse(xml.wrapMessage(xml.getUser(user.getLogin(), user.getIp(), user.getPort())));
         }
     }
 }

@@ -1,5 +1,9 @@
 package com.example.messenger_nure_project_client.sockets;
 
+import com.example.messenger_nure_project_client.Messenger;
+import com.example.messenger_nure_project_client.controlers.MainController;
+import javafx.application.Platform;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -9,13 +13,21 @@ import java.net.Socket;
 
 public class LocalServer {
     static ServerSocket ss;
+    Messenger messenger;
+    static MainController mainController;
 
-    public LocalServer() {
+    public LocalServer(MainController mainController,Messenger messenger) {
         try {
+            this.messenger = messenger;
+            this.mainController = mainController;
             ss = new ServerSocket(0);
         } catch (Throwable e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setMainController(MainController mainController) {
+        LocalServer.mainController = mainController;
     }
 
     public void startServer() {
@@ -23,15 +35,13 @@ public class LocalServer {
             @Override
             public void run() {
                 int num = 0;
-
                 while (true) {
                     try {
                         Socket s = null;
 
-
-                        System.out.println("1");
                         s = ss.accept();
-                        System.out.println("2");
+
+                        messenger.changeClientSocket(s);
 
                         num++;
 
@@ -65,7 +75,6 @@ public class LocalServer {
             this.s = s;
             this.is = new BufferedReader(new InputStreamReader(this.s.getInputStream()));
             this.os = new BufferedWriter(new OutputStreamWriter(this.s.getOutputStream()));
-
         }
 
         public void run() {
@@ -73,34 +82,30 @@ public class LocalServer {
                 while (true) {
                     System.out.println("Connection established");
                     readRequest();
-                    System.out.println("Response gotten");
-                    writeResponse();
-                    System.out.println("Request sent");
+                    System.out.println("Request gotten");
                 }
             } catch (Throwable t) {
-                /*do nothing*/
+                t.printStackTrace();
             } finally {
                 try {
                     s.close();
                 } catch (Throwable t) {
-                    /*do nothing*/
+                   t.printStackTrace();
                 }
             }
             System.err.println("Client processing finished");
         }
 
-        private void writeResponse() throws Throwable {
-            for (int i = 0; i < 10; i++) {
-                String response = "Hi, client\n";
-                os.write(response);
-                os.flush();
-            }
-        }
-
         private void readRequest() throws Throwable {
             System.out.println("Reading request......");
-            String word = is.readLine();
-            System.out.println(word);
+            String message = is.readLine();
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+            mainController.onMessageIncome(message);
+                }
+            });
+            System.out.println(message);
         }
     }
 }
