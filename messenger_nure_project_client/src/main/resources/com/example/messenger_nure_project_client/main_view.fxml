@@ -14,7 +14,7 @@
             <Label fx:id="headerLabel" alignment="CENTER" layoutX="-9.0" layoutY="5.0" prefHeight="44.0" prefWidth="381.0" text="Chat with" textAlignment="CENTER" />
             <TextField fx:id="message_field" layoutY="442.0" prefHeight="44.0" prefWidth="307.0" />
             <VBox fx:id="incoming_filed" alignment="BOTTOM_CENTER" layoutY="5.0" prefHeight="437.0" prefWidth="183.0" />
-            <VBox fx:id="outgoing_filed" alignment="BOTTOM_CENTER" layoutX="173.0" layoutY="5.0" prefHeight="437.0" prefWidth="406.0" />
+            <VBox fx:id="outgoing_filed" alignment="BOTTOM_CENTER" layoutX="173.0" layoutY="5.0" prefHeight="437.0" prefWidth="198.0" />
          </children>
       </AnchorPane>
       <VBox fx:id="userList" alignment="TOP_CENTER" layoutX="8.0" prefHeight="494.0" prefWidth="113.0" />
