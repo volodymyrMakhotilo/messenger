@@ -1,6 +1,7 @@
 package com.example.messenger_nure_project_client.utilities;
 import com.example.messenger_nure_project_client.models.Message;
 import com.example.messenger_nure_project_client.models.User;
+import com.example.messenger_nure_project_client.models.UserMessage;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -34,6 +35,18 @@ public class XML_Marshaller {
         System.out.println(user);
 
         return user;
+    }
+    public UserMessage parseUserMessage(String message) throws JAXBException {
+        System.out.println(message);
+        JAXBContext jaxbContext = JAXBContext.newInstance(UserMessage.class);
+
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+
+        UserMessage userMessage = (UserMessage) jaxbUnmarshaller.unmarshal(new StringReader(message));
+
+        System.out.println(userMessage);
+
+        return userMessage;
     }
 
 

@@ -2,6 +2,8 @@ package com.example.messenger_nure_project_client.sockets;
 
 import com.example.messenger_nure_project_client.Messenger;
 import com.example.messenger_nure_project_client.controlers.MainController;
+import com.example.messenger_nure_project_client.models.UserMessage;
+import com.example.messenger_nure_project_client.utilities.XML_Marshaller;
 import javafx.application.Platform;
 
 import java.io.BufferedReader;
@@ -13,11 +15,13 @@ import java.net.Socket;
 
 public class LocalServer {
     static ServerSocket ss;
-    Messenger messenger;
+    static Messenger messenger;
     static MainController mainController;
+    private static XML_Marshaller xmlMarshaller;
 
     public LocalServer(MainController mainController,Messenger messenger) {
         try {
+            xmlMarshaller = new XML_Marshaller();
             this.messenger = messenger;
             this.mainController = mainController;
             ss = new ServerSocket(0);
@@ -56,6 +60,7 @@ public class LocalServer {
         Thread serverThread = new Thread(serverTask);
         serverThread.start();
     }
+
 
     public int getPort() {
         return ss.getLocalPort();
@@ -99,10 +104,11 @@ public class LocalServer {
         private void readRequest() throws Throwable {
             System.out.println("Reading request......");
             String message = is.readLine();
+            UserMessage userMessage = xmlMarshaller.parseUserMessage(message);
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-            mainController.onMessageIncome(message);
+                    messenger.onMessageIncome(userMessage.getUser_login(),userMessage.getText());
                 }
             });
             System.out.println(message);

@@ -3,6 +3,7 @@ package com.example.messenger_nure_project_client.sockets;
 import com.example.messenger_nure_project_client.controlers.MainController;
 import com.example.messenger_nure_project_client.models.User;
 import com.example.messenger_nure_project_client.utilities.XML_Marshaller;
+import com.example.messenger_nure_project_client.xml.XML;
 import javafx.application.Platform;
 
 import javax.xml.bind.JAXBException;
@@ -15,10 +16,11 @@ public class ClientSocket {
     private java.net.Socket s;
     private BufferedReader is;
     private BufferedWriter os;
+    private XML xml;
 
     private static ClientSocket instance;
 
-    private ClientSocket(MainController mainController) throws Throwable {
+    private ClientSocket(MainController mainController,XML xml) throws Throwable {
         xmlMarshaller = new XML_Marshaller();
         this.mainController = mainController;
         s = new Socket("localhost", 8080);
@@ -26,9 +28,9 @@ public class ClientSocket {
         this.os = new BufferedWriter(new OutputStreamWriter(this.s.getOutputStream()));
     }
 
-    public static ClientSocket getInstance(MainController mainController) throws Throwable {
+    public static ClientSocket getInstance(MainController mainController,XML xml) throws Throwable {
         if (instance == null) {
-            instance = new ClientSocket(mainController);
+            instance = new ClientSocket(mainController,xml);
         }
         return instance;
     }

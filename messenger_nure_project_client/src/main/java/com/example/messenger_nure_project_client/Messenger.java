@@ -1,13 +1,16 @@
 package com.example.messenger_nure_project_client;
 
+import com.example.messenger_nure_project_client.controlers.Chat;
 import com.example.messenger_nure_project_client.controlers.MainController;
 import com.example.messenger_nure_project_client.models.User;
 import com.example.messenger_nure_project_client.sockets.ClientSocket;
 import com.example.messenger_nure_project_client.sockets.LocalServer;
 import com.example.messenger_nure_project_client.xml.XML;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class Messenger {
     private MainController mainController;
@@ -16,11 +19,12 @@ public class Messenger {
     private User[] users;
     private static LocalServer localServer;
     private XML xml;
+    private String login;
 
     private Messenger(MainController mainController) throws Throwable {
         try {
             this.mainController = mainController;
-            clientSocket = ClientSocket.getInstance(mainController);
+            clientSocket = ClientSocket.getInstance(mainController, xml);
             localServer = new LocalServer(mainController, this);
             xml = new XML();
         } catch (Throwable e) {
@@ -28,8 +32,11 @@ public class Messenger {
         }
     }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-    public void setMainController(MainController mainController) {
+    private void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 
@@ -40,9 +47,13 @@ public class Messenger {
         }
         clientSocket.setMainController(mainController);
         localServer.setMainController(mainController);
+        instance.setMainController(mainController);
         return instance;
     }
 
+    public void onMessageIncome(String login, String message) {
+        mainController.onMessageIncome(login,message);
+    }
 
     public User[] getUsers() {
         return users;
@@ -82,11 +93,12 @@ public class Messenger {
 
     public void openChat(String ip, int port) throws IOException {
         clientSocket.reconnect(ip, port);
+
     }
 
     public void sendMessage(String message) {
         try {
-            clientSocket.writeRequest(message);
+            clientSocket.writeRequest(xml.getMessage(login, message));
         } catch (Throwable e) {
             e.printStackTrace();
         }
